@@ -1,6 +1,5 @@
 package com.hcl.inglibrary.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,12 +22,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
 	private String userName;
-	@Column(unique=true)
+	@Column(unique = true)
 	private String email;
 	private String address;
 	private String password;
 	@Column(name = "failure")
-	 private int failure;
+	private int failure;
 	private boolean locker;
-	
+
 }
