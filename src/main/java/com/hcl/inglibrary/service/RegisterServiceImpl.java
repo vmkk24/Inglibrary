@@ -33,11 +33,11 @@ public class RegisterServiceImpl implements RegisterService {
 		user.setLocker(false);
 		User responseUser = userRepository.save(user);
 		RegisterResponseDto registerResponseDto = new RegisterResponseDto();
-		if (responseUser.getUserId() != null) {
+		if (responseUser.getUserId() == null) {
 			registerResponseDto.setMessage("registeration failure");
 			registerResponseDto.setStatusCode(400);
 		}
-
+		registerResponseDto.setUserId(responseUser.getUserId());
 		registerResponseDto.setMessage("registeration successfull");
 		registerResponseDto.setStatusCode(200);
 		return registerResponseDto;

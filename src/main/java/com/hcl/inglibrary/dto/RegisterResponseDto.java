@@ -13,7 +13,8 @@ import lombok.Setter;
 public class RegisterResponseDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private Integer userId;
 	private String message;
 	private Integer statusCode;
 }
