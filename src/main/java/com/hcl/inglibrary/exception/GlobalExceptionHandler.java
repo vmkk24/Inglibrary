@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse();
 		errorResponse.setMessage(exception.getMessage());
 		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
-		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 	}
 
 	@ExceptionHandler(CommonException.class)
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse();
 		errorResponse.setMessage(exception.getMessage());
 		errorResponse.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 	}
 
