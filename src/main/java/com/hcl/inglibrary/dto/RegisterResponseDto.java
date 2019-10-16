@@ -1,5 +1,20 @@
 package com.hcl.inglibrary.dto;
 
-public class RegisterResponseDto {
+import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+
+public class RegisterResponseDto implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	private Integer userId;
+	private String message;
+	private Integer statusCode;
 }

@@ -8,6 +8,7 @@ import com.hcl.inglibrary.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+
 	Optional<User> findByUserId(Integer userId);
 
 	Optional<User> findByEmailAndPassword(String email, String password);
@@ -15,5 +16,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	Optional<User> findByEmailAndPasswordAndLocker(String email, String password, boolean locker);
 
 	Optional<User> findByEmail(String email);
+
 
 }
