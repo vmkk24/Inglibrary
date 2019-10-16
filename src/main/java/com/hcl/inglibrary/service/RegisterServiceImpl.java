@@ -25,7 +25,7 @@ public class RegisterServiceImpl implements RegisterService {
 		if (checkRegisterForEmail.isPresent()) {
 			throw new CommonException(ExceptionConstants.EXIST_EMAIL);
 		}
-		if (registerRequestDto.getPassword().length() <= 6) {
+		if (registerRequestDto.getPassword().length()<6) {
 			throw new CommonException(ExceptionConstants.INVALID_PASSWORD);
 		}
 
@@ -37,7 +37,7 @@ public class RegisterServiceImpl implements RegisterService {
 		RegisterResponseDto registerResponseDto = new RegisterResponseDto();
 		if (responseUser.getUserId() == null) {
 			registerResponseDto.setMessage("registeration failure");
-			registerResponseDto.setStatusCode(400);
+			registerResponseDto.setStatusCode(200);
 		}
 		registerResponseDto.setUserId(responseUser.getUserId());
 		registerResponseDto.setMessage("registeration successfull");
