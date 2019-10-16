@@ -23,7 +23,7 @@ public class RegisterServiceImpl implements RegisterService {
 		if (checkRegisterForEmail != null) {
 			throw new CommonException(ExceptionConstants.EXIST_EMAIL);
 		}
-		if (registerRequestDto.getPassword().length() >= 6) {
+		if (registerRequestDto.getPassword().length() <= 6) {
 			throw new CommonException(ExceptionConstants.INVALID_PASSWORD);
 		}
 
