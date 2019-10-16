@@ -1,5 +1,7 @@
 package com.hcl.inglibrary.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,8 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Override
 	public RegisterResponseDto register(RegisterRequestDto registerRequestDto) {
-		User checkRegisterForEmail = userRepository.findByEmail(registerRequestDto.getEmail());
-		if (checkRegisterForEmail != null) {
+		Optional<User> checkRegisterForEmail = userRepository.findByEmail(registerRequestDto.getEmail());
+		if (checkRegisterForEmail.isPresent()) {
 			throw new CommonException(ExceptionConstants.EXIST_EMAIL);
 		}
 		if (registerRequestDto.getPassword().length() <= 6) {
