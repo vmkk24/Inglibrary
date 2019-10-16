@@ -15,7 +15,12 @@ public class GlobalExceptionHandler {
 		errorResponse.setMessage(exception.getMessage());
 		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
 
+	@ExceptionHandler(CommonException.class)
+	public ResponseEntity<ResponseError> commonException(Exception e) {
+		ResponseError error = new ResponseError(e.getMessage(), HttpStatus.NOT_FOUND.value());
+		return new ResponseEntity<>(error, HttpStatus.OK);
 	}
 
 	@ExceptionHandler(UserNotFoundException.class)
@@ -35,12 +40,6 @@ public class GlobalExceptionHandler {
 		errorResponse.setStatusCode(HttpStatus.UNAUTHORIZED.value());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 
-	}
-
-	@ExceptionHandler(CommonException.class)
-	public ResponseEntity<ResponseError> commonException(Exception e) {
-		ResponseError error = new ResponseError(e.getMessage(), HttpStatus.NOT_FOUND.value());
-		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 
 }

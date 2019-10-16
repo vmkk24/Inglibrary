@@ -1,6 +1,7 @@
 package com.hcl.inglibrary.util;
 
 public class ExceptionConstants {
+
 	private ExceptionConstants() {
 
 	}
