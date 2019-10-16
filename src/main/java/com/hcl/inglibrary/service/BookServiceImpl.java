@@ -1,16 +1,14 @@
 package com.hcl.inglibrary.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hcl.inglibrary.dto.BookListResponseDto;
-import com.hcl.inglibrary.dto.UserResponseDto;
 import com.hcl.inglibrary.entity.Book;
-import com.hcl.inglibrary.entity.User;
-import com.hcl.inglibrary.exception.UserNotFoundException;
+import com.hcl.inglibrary.exception.BooksNotFoundException;
 import com.hcl.inglibrary.repository.BookRepository;
 import com.hcl.inglibrary.util.ExceptionConstants;
 import org.springframework.beans.BeanUtils;
@@ -21,19 +19,21 @@ public class BookServiceImpl implements BookService{
 	@Autowired
 	BookRepository bookRepository;
 	@Override
-	public BookListResponseDto fetchBooks() {
+	public List<BookListResponseDto> fetchBooks() {
 
-/*		BookListResponseDto bookListResponseDto = new BookListResponseDto();
+		List<BookListResponseDto> bookListResponseDto = new ArrayList<>();
 		List<Book> books = bookRepository.findAll();
 		if(books != null) {
-			books.forEach(arg0);
-		BeanUtils.copyProperties(books, bookListResponseDto);
-		return bookListResponseDto;
+			books.forEach(book->{
+				BookListResponseDto bookResponseDto = new BookListResponseDto();
+				BeanUtils.copyProperties(book, bookResponseDto);
+				bookListResponseDto.add(bookResponseDto);
+			});
+			return bookListResponseDto;
 		}else {
-			throw new UserNotFoundException(ExceptionConstants.userNotFound);
+			throw new BooksNotFoundException(ExceptionConstants.booksNotFound);
 		}
 	}
-*/		return null;
-	}
+	
 
 }
