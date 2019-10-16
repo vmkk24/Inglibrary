@@ -1,8 +1,7 @@
 package com.hcl.inglibrary.entity;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,24 +11,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Entity
+public class BookIssuedHistory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer bookIssuedId;
 	private Integer userId;
-	private String userName;
-	@Column(unique = true)
-
-	private String email;
-	private String contact;
-	private String password;
-	private boolean locker;
-
-	private Integer failure;
-
+	private Integer bookId;
+	private LocalDate issuedDate;
+	private LocalDate dueDate;
+	private String status;
 }

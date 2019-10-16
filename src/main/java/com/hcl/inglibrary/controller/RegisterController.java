@@ -32,7 +32,7 @@ public class RegisterController {
 	public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
 		log.info("inside register controller");
 		RegisterResponseDto registerResponseDto = registerService.register(registerRequestDto);
-		return new ResponseEntity<>(registerResponseDto, HttpStatus.CREATED);
+		return new ResponseEntity<>(registerResponseDto, HttpStatus.OK);
 	}
 
 }
