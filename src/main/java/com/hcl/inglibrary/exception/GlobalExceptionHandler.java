@@ -26,4 +26,14 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 
 	}
+	@ExceptionHandler(NullInputException.class)
+	public ResponseEntity<ResponseError> globalExceptionHandler(NullInputException exception) {
+
+		ResponseError errorResponse = new ResponseError();
+		errorResponse.setMessage(exception.getMessage());
+		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+
+	}
+
 }

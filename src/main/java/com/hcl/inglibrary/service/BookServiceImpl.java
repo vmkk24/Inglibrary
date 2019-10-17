@@ -16,13 +16,23 @@ import com.hcl.inglibrary.repository.BookRepository;
 import com.hcl.inglibrary.util.ApplicationUtil;
 import com.hcl.inglibrary.util.ExceptionConstants;
 import org.springframework.beans.BeanUtils;
-
+/**
+ * 
+ * @author Manisha Yadav
+ * @apiNote This class is used to get/save the books from/to our library management system. 
+ */
 @Service
 public class BookServiceImpl implements BookService{
 
 	@Autowired
 	BookRepository bookRepository;
 	
+	/*
+	 * @Param -no param
+	 * @Response -list of books
+	 * @Exception -Books not found
+	 * @Description -This method is used to fetch all the list of books which is available in the library.
+	 * */
 	@Override
 	public List<BookListResponseDto> fetchBooks() {
 
@@ -40,6 +50,12 @@ public class BookServiceImpl implements BookService{
 		}
 	}
 	
+	/*
+	 * @Param -bookRequestDto
+	 * @Response -donateBookResponseDto
+	 * @Exception -Books not found
+	 * @Description -This method is used to save the book details which is donated by the specific user.
+	 * */
 	@Override
 	public DonateBookResponseDto donateBook(BookRequestDto bookRequestDto) {
 
@@ -56,6 +72,12 @@ public class BookServiceImpl implements BookService{
 		return donateBookResponseDto;
 	}
 
+	/*
+	 * @Param -userId
+	 * @Response -list of books
+	 * @Exception -Books not found
+	 * @Description -This method is used to fetch the book details which is issued to the specific user.
+	 * */
 	@Override
 	public List<BookListByUserResponseDto> fetchBooksByUser(Integer userId) {
 		List<BookListByUserResponseDto> BookListByUserResponseDto = new ArrayList<>();
