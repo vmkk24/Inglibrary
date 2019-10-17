@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 		public ResponseEntity<UserResponseDto> getUser(@PathVariable Integer userId){
 			log.info(":: Enter into UserController--------::getUser()");
 			if(userId!=null){
-			return new ResponseEntity<UserResponseDto>(userService.fetchUserDetails(userId),HttpStatus.OK);
+			return new ResponseEntity<>(userService.fetchUserDetails(userId),HttpStatus.OK);
 			}else{
 				throw new NullInputException(ApplicationUtil.UserNull);
 			}

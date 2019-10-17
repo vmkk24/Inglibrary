@@ -34,7 +34,7 @@ public class UserServiceImplTest {
 		user.setUserId(1);
 		user.setUserName("manisha");
 		
-		Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
+		//Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
 		
 		if(user != null) {
 			org.springframework.beans.BeanUtils.copyProperties(user, userResponseDto);

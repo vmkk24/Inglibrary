@@ -1,8 +1,8 @@
 package com.hcl.inglibrary.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,20 +12,22 @@ import com.hcl.inglibrary.dto.BookListByUserResponseDto;
 import com.hcl.inglibrary.dto.BookListResponseDto;
 import com.hcl.inglibrary.dto.BookRequestDto;
 import com.hcl.inglibrary.dto.DonateBookResponseDto;
-import com.hcl.inglibrary.entity.Book;
-import com.hcl.inglibrary.exception.BooksNotFoundException;
 import com.hcl.inglibrary.dto.RequestReserveDto;
 import com.hcl.inglibrary.dto.ResponseReserveDto;
+import com.hcl.inglibrary.entity.Book;
 import com.hcl.inglibrary.entity.BookIssuedHistory;
+import com.hcl.inglibrary.exception.BooksNotFoundException;
 import com.hcl.inglibrary.exception.CommonException;
 import com.hcl.inglibrary.repository.BookIssuedHistoryRepository;
 import com.hcl.inglibrary.repository.BookRepository;
 import com.hcl.inglibrary.util.ApplicationUtil;
 import com.hcl.inglibrary.util.ExceptionConstants;
+
 /**
  * 
  * @author Manisha Yadav
- * @apiNote This class is used to get/save the books from/to our library management system. 
+ * @apiNote This class is used to get/save the books from/to our library
+ *          management system.
  */
 
 @Service
@@ -33,13 +35,17 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	BookRepository bookRepository;
-	
+
 	/*
 	 * @Param -no param
+	 * 
 	 * @Response -list of books
+	 * 
 	 * @Exception -Books not found
-	 * @Description -This method is used to fetch all the list of books which is available in the library.
-	 * */
+	 * 
+	 * @Description -This method is used to fetch all the list of books which is
+	 * available in the library.
+	 */
 
 	@Autowired
 	BookIssuedHistoryRepository bookIssuedHistoryRepository;
@@ -51,33 +57,37 @@ public class BookServiceImpl implements BookService {
 
 		List<BookListResponseDto> bookListResponseDto = new ArrayList<>();
 		List<Book> books = bookRepository.findAll();
-		if(books != null) {
-			books.forEach(book->{
+		if (books != null) {
+			books.forEach(book -> {
 				BookListResponseDto bookResponseDto = new BookListResponseDto();
 				BeanUtils.copyProperties(book, bookResponseDto);
 				bookListResponseDto.add(bookResponseDto);
 			});
 			return bookListResponseDto;
-		}else {
+		} else {
 			throw new BooksNotFoundException(ExceptionConstants.booksNotFound);
 		}
 	}
-	
+
 	/*
 	 * @Param -bookRequestDto
+	 * 
 	 * @Response -donateBookResponseDto
+	 * 
 	 * @Exception -Books not found
-	 * @Description -This method is used to save the book details which is donated by the specific user.
-	 * */
+	 * 
+	 * @Description -This method is used to save the book details which is donated
+	 * by the specific user.
+	 */
 	@Override
 	public DonateBookResponseDto donateBook(BookRequestDto bookRequestDto) {
 
-		Book book= new Book();
+		Book book = new Book();
 		book.setAuthorName(bookRequestDto.getAuthorName());
 		book.setBookName(bookRequestDto.getBookName());
 		book.setStatus(ApplicationUtil.defaultBookStatus);
 		bookRepository.save(book);
-		
+
 		DonateBookResponseDto donateBookResponseDto = new DonateBookResponseDto();
 		donateBookResponseDto.setMessage(ApplicationUtil.donateBookResponseDtoMsg);
 		donateBookResponseDto.setStatusCode(200);
@@ -86,30 +96,40 @@ public class BookServiceImpl implements BookService {
 
 	/*
 	 * @Param -userId
+	 * 
 	 * @Response -list of books
+	 * 
 	 * @Exception -Books not found
-	 * @Description -This method is used to fetch the book details which is issued to the specific user.
-	 * */
+	 * 
+	 * @Description -This method is used to fetch the book details which is issued
+	 * to the specific user.
+	 */
 	@Override
 	public List<BookListByUserResponseDto> fetchBooksByUser(Integer userId) {
 		List<BookListByUserResponseDto> BookListByUserResponseDto = new ArrayList<>();
-		List<Book> books = bookRepository.findByUserId(userId);
-		if(books != null) {
-			books.forEach(book->{
+		List<BookIssuedHistory> books = bookIssuedHistoryRepository.findAllByUserIdAndStatus(userId, "Issued");
+		if (books != null) {
+			books.forEach(book -> {
 				BookListByUserResponseDto bookByUserResponseDto = new BookListByUserResponseDto();
 				BeanUtils.copyProperties(book, bookByUserResponseDto);
+				Book responseBook = bookRepository.findByBookId(book.getBookId());
+				bookByUserResponseDto.setAuthorName(responseBook.getAuthorName());
+				bookByUserResponseDto.setBookName(responseBook.getBookName());
 				BookListByUserResponseDto.add(bookByUserResponseDto);
 			});
 			return BookListByUserResponseDto;
-		}else {
+		} else {
 			throw new BooksNotFoundException(ExceptionConstants.booksNotFound);
 		}
 	}
 
 	/*
 	 * This method is used to reserve or preReserve the book.
+	 * 
 	 * @Body RequestReserveDto
+	 * 
 	 * @return ResponseReserveDto
+	 * 
 	 * @Exception RESERVE_BOOK_FAILED will throw when the request data is empty
 	 */
 
@@ -160,6 +180,5 @@ public class BookServiceImpl implements BookService {
 		bookRepository.save(responseBook);
 		return responseReserveDto;
 	}
-	
 
 }
