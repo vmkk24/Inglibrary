@@ -47,7 +47,7 @@ public class BookController {
 		@GetMapping("/")
 		public ResponseEntity<List<BookListResponseDto>> getBooks(){
 			log.info(":: Enter into BookController--------::getBooks()");
-			return new ResponseEntity<List<BookListResponseDto>>(bookService.fetchBooks(),HttpStatus.OK);
+			return new ResponseEntity<>(bookService.fetchBooks(),HttpStatus.OK);
 		}
 		
 		/*
@@ -60,7 +60,7 @@ public class BookController {
 		public ResponseEntity<List<BookListByUserResponseDto>> getBooksByUser(@PathVariable Integer userId){
 			log.info(":: Enter into BookController--------::getBooksByUser()");
 			if(userId != null) {
-			return new ResponseEntity<List<BookListByUserResponseDto>>(bookService.fetchBooksByUser(userId),HttpStatus.OK);
+			return new ResponseEntity<>(bookService.fetchBooksByUser(userId),HttpStatus.OK);
 			}else { 
 				throw new NullInputException(ApplicationUtil.UserNull);
 			}

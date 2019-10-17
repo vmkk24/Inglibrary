@@ -53,7 +53,7 @@ public class LoginController {
 			throw new InvalidCredentialsException(message);
 		}
 
-		return new ResponseEntity<LoginResponse>(loginService.authenticate(loginRequest), HttpStatus.CREATED);
+		return new ResponseEntity<>(loginService.authenticate(loginRequest), HttpStatus.CREATED);
 
 	}
 
