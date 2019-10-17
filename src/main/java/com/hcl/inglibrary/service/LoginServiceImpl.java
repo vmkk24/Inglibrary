@@ -60,7 +60,8 @@ public class LoginServiceImpl implements LoginService {
 					 */
 
 					if (failedUser.get().getFailure() == 3) {
-						User updateuser = usersDao.findByEmail(failedUser.get().getEmail()).get();
+						Optional<User> updateuserO = usersDao.findByEmail(failedUser.get().getEmail());
+						User updateuser = updateuserO.get();
 
 						updateuser.setFailure(0);
 						updateuser.setLocker(true);
@@ -92,10 +93,11 @@ public class LoginServiceImpl implements LoginService {
 			loginResponse.setMessage(message);
 			loginResponse.setStatusCode(HttpStatus.OK.value());
 
-			if (user.isPresent()) {
-				loginResponse.setUserId(user.get().getUserId());
-			} else {
+			if (!(user.isPresent())) {
 				loginResponse.setUserId(0);
+			} else {
+
+				loginResponse.setUserId(user.get().getUserId());
 			}
 		}
 		return loginResponse;
