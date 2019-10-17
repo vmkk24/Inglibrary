@@ -10,5 +10,8 @@ public class ExceptionConstants {
 	public static final String INVALID_PASSWORD = "Please enter atleast 6 characters";
 
 	public static final String userNotFound = "User not found";
+	public static final String booksNotFound = "No Books found";
+	
+
 
 }

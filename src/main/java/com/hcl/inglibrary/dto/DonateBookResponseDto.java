@@ -9,10 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookListResponseDto {
+public class DonateBookResponseDto {
+	
+	private String message;
+	private int StatusCode;
 
-	private Integer bookId;
-	private String bookName;
-	private String authorName;
-	private String status;
 }

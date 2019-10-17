@@ -39,6 +39,25 @@ public class GlobalExceptionHandler {
 		errorResponse.setMessage(exception.getMessage());
 		errorResponse.setStatusCode(HttpStatus.UNAUTHORIZED.value());
 		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
+	}
+
+	@ExceptionHandler(BooksNotFoundException.class)
+	public ResponseEntity<ResponseError> globalExceptionHandler(BooksNotFoundException exception) {
+
+		ResponseError errorResponse = new ResponseError();
+		errorResponse.setMessage(exception.getMessage());
+		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+
+	}
+
+	@ExceptionHandler(NullInputException.class)
+	public ResponseEntity<ResponseError> globalExceptionHandler(NullInputException exception) {
+
+		ResponseError errorResponse = new ResponseError();
+		errorResponse.setMessage(exception.getMessage());
+		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 
 	}
 
