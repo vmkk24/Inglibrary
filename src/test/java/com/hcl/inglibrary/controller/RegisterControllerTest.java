@@ -34,6 +34,9 @@ public class RegisterControllerTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(registerController).build();
 		registerRequestDto = new RegisterRequestDto();
 		registerRequestDto.setUserName("subha");
+		registerRequestDto.setPassword("subha1");
+		registerRequestDto.setEmail("subha@gmail.com");
+		registerRequestDto.setContact("9988776655");
 
 	}
 
