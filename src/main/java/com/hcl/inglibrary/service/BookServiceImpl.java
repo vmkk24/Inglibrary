@@ -16,7 +16,10 @@ import com.hcl.inglibrary.repository.BookIssuedHistoryRepository;
 import com.hcl.inglibrary.repository.BookRepository;
 import com.hcl.inglibrary.util.ExceptionConstants;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class BookServiceImpl implements BookService {
 
 	@Autowired
@@ -25,18 +28,10 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	BookIssuedHistoryRepository bookIssuedHistoryRepository;
 
-	private static final String BOOKED = "issued";
-
 	@Override
 	public BookListResponseDto fetchBooks() {
 
-		/*
-		 * BookListResponseDto bookListResponseDto = new BookListResponseDto();
-		 * List<Book> books = bookRepository.findAll(); if(books != null) {
-		 * books.forEach(arg0); BeanUtils.copyProperties(books, bookListResponseDto);
-		 * return bookListResponseDto; }else { throw new
-		 * UserNotFoundException(ExceptionConstants.userNotFound); } }
-		 */ return null;
+		return null;
 	}
 
 	/*
@@ -51,34 +46,39 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public ResponseReserveDto reserveBook(RequestReserveDto requestReserveDto, Integer bookId) {
+		log.info(":: Enter into BookServiceImpl--------::reserveBook()");
 		if (requestReserveDto == null) {
-			throw new CommonException(ExceptionConstants.RESERVE_BOOK_FAILED);
+			throw new CommonException(ExceptionConstants.ISSUE_BOOK_FAILED);
 		}
 
 		BookIssuedHistory bookIssuedHistory = new BookIssuedHistory();
 		BeanUtils.copyProperties(requestReserveDto, bookIssuedHistory);
 		ResponseReserveDto responseReserveDto = new ResponseReserveDto();
 
-		if (requestReserveDto.getStatus().equalsIgnoreCase("available")) {
+		if (requestReserveDto.getStatus().equalsIgnoreCase("Available")) {
 
 			bookIssuedHistory.setBookId(bookId);
-			bookIssuedHistory.setStatus(BOOKED);
+			bookIssuedHistory.setStatus(ExceptionConstants.ISSUED);
 			bookIssuedHistory.setIssuedDate(LocalDate.now());
 			bookIssuedHistory.setDueDate(LocalDate.now().plusDays(7));
 			responseReserveDto.setMessage("Book issued Successfully");
 		} else {
 
 			BookIssuedHistory responseBookIssuedHistoryForPreBook = bookIssuedHistoryRepository
-					.findByBookIdAndStatus(bookId, BOOKED);
+					.findByBookIdAndStatus(bookId, ExceptionConstants.ISSUED);
+			if (responseBookIssuedHistoryForPreBook.getUserId().equals(requestReserveDto.getUserId())) {
+				throw new CommonException(ExceptionConstants.RESERVE_BOOK_FAILED);
+			}
 			bookIssuedHistory.setBookId(bookId);
 			bookIssuedHistory.setIssuedDate(responseBookIssuedHistoryForPreBook.getDueDate().plusDays(2));
 			bookIssuedHistory.setDueDate(responseBookIssuedHistoryForPreBook.getDueDate().plusDays(7));
-			bookIssuedHistory.setStatus("reserved");
-			responseReserveDto.setMessage("Book reserved Successfully");
+			bookIssuedHistory.setStatus("Reserved");
+			responseReserveDto.setMessage("Book reserved Successfully" + " Your due date is "
+					+ responseBookIssuedHistoryForPreBook.getDueDate().plusDays(7));
 		}
 		BookIssuedHistory responseBookIssuedHistory = bookIssuedHistoryRepository.save(bookIssuedHistory);
 		if (responseBookIssuedHistory.getBookIssuedId() == null) {
-			throw new CommonException(ExceptionConstants.RESERVE_BOOK_FAILED);
+			throw new CommonException(ExceptionConstants.ISSUE_BOOK_FAILED);
 		}
 
 		responseReserveDto.setStatusCode(200);
@@ -86,11 +86,11 @@ public class BookServiceImpl implements BookService {
 
 		Book responseBook = bookRepository.findByBookId(bookId);
 
-		if (responseBook.getStatus().equalsIgnoreCase("available")) {
-			responseBook.setStatus(BOOKED);
+		if (responseBook.getStatus().equalsIgnoreCase("Available")) {
+			responseBook.setStatus(ExceptionConstants.ISSUED);
 
 		} else {
-			responseBook.setStatus("reserved");
+			responseBook.setStatus("Reserved");
 
 		}
 		bookRepository.save(responseBook);
