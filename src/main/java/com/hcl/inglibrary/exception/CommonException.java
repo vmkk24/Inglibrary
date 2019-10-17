@@ -8,6 +8,5 @@ public class CommonException extends RuntimeException implements Serializable {
 
 	public CommonException(String message) {
 		super(message);
-
 	}
 }

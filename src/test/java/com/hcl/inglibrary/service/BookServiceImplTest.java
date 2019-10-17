@@ -31,7 +31,6 @@ public class BookServiceImplTest {
 	
 	@Test
 	public void testFetchBooks() {
-		
 		List<BookListResponseDto> bookListResponseDto = new ArrayList<BookListResponseDto>();
 		List<Book> books = new ArrayList<>();
 		Book book = new Book();
@@ -40,26 +39,19 @@ public class BookServiceImplTest {
 		book.setBookName("Mani");
 		book.setStatus("available");
 		book.setUserId(1);
-		
 		books.add(book);
-		
 		Mockito.when(bookRepository.findAll()).thenReturn(books);
-		if(books != null) {
 			books.forEach(book1->{
 				BookListResponseDto bookResponseDto = new BookListResponseDto();
 				BeanUtils.copyProperties(book1, bookResponseDto);
 				bookListResponseDto.add(bookResponseDto);
-				
 			});
 			List<BookListResponseDto> actual =	bookServiceImpl.fetchBooks();
-
 			assertNotNull(actual);
-		}
 	}
 
 	@Test
 	public void testDonateBook() {
-
 		DonateBookResponseDto donateBookResponseDto = new DonateBookResponseDto();
 		donateBookResponseDto.setMessage(ApplicationUtil.donateBookResponseDtoMsg);
 		donateBookResponseDto.setStatusCode(200);
@@ -69,7 +61,6 @@ public class BookServiceImplTest {
 		bookRequestDto.setBookName("Mani");
 		bookRequestDto.setUserId(1);
 		DonateBookResponseDto actual =	bookServiceImpl.donateBook(bookRequestDto);
-
 		assertNotNull(actual);
 	}
 
@@ -96,5 +87,4 @@ public class BookServiceImplTest {
 			assertNotNull(actual);
 		}
 	}
-
 }

@@ -12,6 +12,6 @@ import lombok.Setter;
 public class DonateBookResponseDto {
 	
 	private String message;
-	private int StatusCode;
+	private int statusCode;
 
 }
