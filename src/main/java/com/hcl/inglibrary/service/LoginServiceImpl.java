@@ -9,11 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.hcl.inglibrary.dto.LoginRequest;
 import com.hcl.inglibrary.dto.LoginResponse;
-import com.hcl.inglibrary.dto.ResetPasswordRequest;
-import com.hcl.inglibrary.dto.ResetPasswordResponse;
 import com.hcl.inglibrary.entity.User;
 import com.hcl.inglibrary.exception.InvalidCredentialsException;
-import com.hcl.inglibrary.exception.InvalidUserException;
 import com.hcl.inglibrary.repository.UserRepository;
 import com.hcl.inglibrary.utils.ApplicationConstants;
 
@@ -24,22 +21,6 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private UserRepository usersDao;
 
-	@Override
-	public void updateLoginInfo(User users) {
-		logger.info(":: Enter into LoginController--------::login()");
-
-		usersDao.save(users);
-	}
-
-	/*
-	 * @Override public String generatePassword() {
-	 * logger.info(":: Enter into LoginController--------::login()");
-	 * 
-	 * return RandomStringUtils.randomAlphanumeric(10);
-	 * 
-	 * }
-	 */
-
 	/**
 	 * 
 	 * @param login credentials
@@ -49,6 +30,13 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public LoginResponse authenticate(LoginRequest loginRequest) throws InvalidCredentialsException {
+
+		/*
+		 * This method is the service for logging into the application After 3
+		 * unsuccessful attempts of logging into account, password will be reset and an
+		 * email will be sent to the user to reset his password.
+		 */
+
 		logger.info(":: Enter into LoginService--------::authenticate()");
 
 		String message = "";
@@ -65,17 +53,18 @@ public class LoginServiceImpl implements LoginService {
 				logger.info("Failure Attempts in controller : " + failedUser.get().getFailure());
 
 				if (failedUser.get().getFailure() >= 3) {
+
+					/*
+					 * After 3 unsuccessful attempts of logging into account, password will be reset
+					 * and an email will be sent to the user to reset his password.
+					 */
+
 					if (failedUser.get().getFailure() == 3) {
 						User updateuser = usersDao.findByEmail(failedUser.get().getEmail()).get();
-						// String password = generatePassword();
 
-						// System.out.println("password:" + password);
-
-						// updateuser.setPassword(password);
 						updateuser.setFailure(0);
 						updateuser.setLocker(true);
 						usersDao.save(updateuser);
-						// sendEmail(failedUser.get().getEmail(), password, "password");
 					}
 					message = ApplicationConstants.FAILED_ATTEMPTS_EXCEEDED;
 					throw new InvalidCredentialsException(message);
@@ -101,7 +90,7 @@ public class LoginServiceImpl implements LoginService {
 		} else {
 			message = ApplicationConstants.SUCCESS;
 			loginResponse.setMessage(message);
-			loginResponse.setStatusCode(201);
+			loginResponse.setStatusCode(HttpStatus.OK.value());
 
 			if (user.isPresent()) {
 				loginResponse.setUserId(user.get().getUserId());
@@ -110,32 +99,6 @@ public class LoginServiceImpl implements LoginService {
 			}
 		}
 		return loginResponse;
-	}
-
-	@Override
-	public ResetPasswordResponse forgetPassword(ResetPasswordRequest resetPasswordRequest)  {
-
-		Optional<User> userO = usersDao.findByEmail(resetPasswordRequest.getEmail());
-		//boolean isCodeValid = otpService.validateOtp(resetPasswordRequest.getEmail(), resetPasswordRequest.getOtp());
-		User user = null;
-		ResetPasswordResponse resetPasswordResponse = new ResetPasswordResponse();
-		if (userO.isPresent() /*&& isCodeValid*/) {
-			user = userO.get();
-			user.setPassword(resetPasswordRequest.getNewPassword());
-			user.setLocker(false);
-			usersDao.save(user);
-			resetPasswordResponse.setMessage(ApplicationConstants.SUCCESS);
-			resetPasswordResponse.setStatusCode(HttpStatus.OK.value());
-			resetPasswordResponse.setUserId(user.getUserId());
-		} else {
-			if(userO.isPresent()) {
-				throw new InvalidUserException(ApplicationConstants.INVALID_CREDENTIALS);
-			}/*else if(!isCodeValid) {
-				throw new OtpVerificationFailed(ApplicationConstants.OTP_VERIFICATION_FAILED);
-			}*/
-		}
-		return resetPasswordResponse;
-	
 	}
 
 }
