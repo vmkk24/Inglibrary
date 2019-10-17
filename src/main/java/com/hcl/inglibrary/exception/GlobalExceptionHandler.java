@@ -28,10 +28,9 @@ public class GlobalExceptionHandler {
 		ResponseError errorResponse = new ResponseError();
 		errorResponse.setMessage(exception.getMessage());
 		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
-		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 	}
-
 	@ExceptionHandler(InvalidCredentialsException.class)
 	public ResponseEntity<ErrorResponse> globalExceptionHandler(InvalidCredentialsException exception) {
 
@@ -40,7 +39,6 @@ public class GlobalExceptionHandler {
 		errorResponse.setStatusCode(HttpStatus.UNAUTHORIZED.value());
 		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 	}
-
 	@ExceptionHandler(BooksNotFoundException.class)
 	public ResponseEntity<ResponseError> globalExceptionHandler(BooksNotFoundException exception) {
 
@@ -60,5 +58,4 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 
 	}
-
 }

@@ -9,6 +9,7 @@ import com.hcl.inglibrary.dto.ResponseReserveDto;
 import com.hcl.inglibrary.dto.BookRequestDto;
 import com.hcl.inglibrary.dto.DonateBookResponseDto;
 
+
 public interface BookService {
 
 	List<BookListResponseDto> fetchBooks();
@@ -17,6 +18,6 @@ public interface BookService {
 
 	List<BookListByUserResponseDto> fetchBooksByUser(Integer userId);
 
-	ResponseReserveDto reserveBook(RequestReserveDto requestReserveDto);
+	ResponseReserveDto reserveBook(RequestReserveDto requestReserveDto, Integer bookId);
 
 }

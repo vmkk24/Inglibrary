@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,6 +22,18 @@ import com.hcl.inglibrary.dto.BookRequestDto;
 import com.hcl.inglibrary.dto.DonateBookResponseDto;
 import com.hcl.inglibrary.service.BookService;
 
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.hcl.inglibrary.dto.RequestReserveDto;
+import com.hcl.inglibrary.util.ContentTypeTestCase;
+
+/**
+ * @author Manisha Yadav
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class BookControllerTest {
 
@@ -26,6 +41,8 @@ public class BookControllerTest {
 	BookService bookService;
 	@InjectMocks
 	BookController bookController;
+	MockMvc mockMvc;
+	RequestReserveDto requestReserveDto;
 	
 	@Test
 	public void testGetBooks() {
@@ -76,4 +93,20 @@ public class BookControllerTest {
 		ResponseEntity<DonateBookResponseDto> actual = bookController.donateBook(bookRequestDto);
 		assertNotNull(actual);
 	}
+
+	@Before
+	public void setup() {
+		mockMvc = MockMvcBuilders.standaloneSetup(bookController).build();
+		requestReserveDto = new RequestReserveDto();
+		requestReserveDto.setUserId(1);
+		requestReserveDto.setStatus("available");
+	}
+
+	@Test
+	public void testReserveBook() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("books/{bookId}", 1).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(ContentTypeTestCase.asJsonString(requestReserveDto)))
+				.andExpect(status().isOk());
+	}
+
 }

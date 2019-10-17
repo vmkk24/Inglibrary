@@ -10,7 +10,7 @@ import com.hcl.inglibrary.entity.Book;
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
 	Optional<List<Book>> findByStatus(String status);
-
+	Book findByBookId(Integer bookId);
 	List<Book> findByUserId(Integer userId);
 
 }

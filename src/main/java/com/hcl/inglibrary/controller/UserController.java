@@ -17,7 +17,6 @@ import com.hcl.inglibrary.util.ApplicationUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 
  * @author Manisha Yadav
  * @apiNote This controller is used to get the user details which is registered with the library management system. 
  */

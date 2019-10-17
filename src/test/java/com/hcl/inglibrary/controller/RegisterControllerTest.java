@@ -34,6 +34,9 @@ public class RegisterControllerTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(registerController).build();
 		registerRequestDto = new RegisterRequestDto();
 		registerRequestDto.setUserName("subha");
+		registerRequestDto.setPassword("subha1");
+		registerRequestDto.setEmail("subha@gmail.com");
+		registerRequestDto.setContact("9988776655");
 
 	}
 
@@ -41,7 +44,7 @@ public class RegisterControllerTest {
 	public void testRegister() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/user/register").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(ContentTypeTestCase.asJsonString(registerRequestDto)))
-				.andExpect(status().isCreated());
+				.andExpect(status().isOk());
 	}
 
 }
