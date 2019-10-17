@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.BeanUtils;
 
-import com.hcl.inglibrary.dto.BookListByUserResponseDto;
 import com.hcl.inglibrary.dto.BookListResponseDto;
 import com.hcl.inglibrary.dto.BookRequestDto;
 import com.hcl.inglibrary.dto.DonateBookResponseDto;
