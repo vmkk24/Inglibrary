@@ -6,4 +6,6 @@ import com.hcl.inglibrary.entity.BookIssuedHistory;
 
 public interface BookIssuedHistoryRepository extends JpaRepository<BookIssuedHistory, Integer> {
 
+	BookIssuedHistory findByBookIdAndStatus(Integer bookId, String string);
+
 }

@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 		ResponseError errorResponse = new ResponseError();
 		errorResponse.setMessage(exception.getMessage());
 		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
-		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 	}
 

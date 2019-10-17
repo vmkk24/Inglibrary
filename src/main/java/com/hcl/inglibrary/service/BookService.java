@@ -8,6 +8,6 @@ public interface BookService {
 
 	BookListResponseDto fetchBooks();
 
-	ResponseReserveDto reserveBook(RequestReserveDto requestReserveDto);
+	ResponseReserveDto reserveBook(RequestReserveDto requestReserveDto, Integer bookId);
 
 }
