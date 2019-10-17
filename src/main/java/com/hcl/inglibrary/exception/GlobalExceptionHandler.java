@@ -8,6 +8,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	@ExceptionHandler(InvalidUserException.class)
+	public ResponseEntity<ErrorResponse> globalExceptionHandler(InvalidUserException exception) {
+
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage(exception.getMessage());
+		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
+		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
+	}
+
 	@ExceptionHandler(CommonException.class)
 	public ResponseEntity<ResponseError> commonException(Exception e) {
 		ResponseError error = new ResponseError(e.getMessage(), HttpStatus.NOT_FOUND.value());
@@ -16,12 +25,19 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<ResponseError> globalExceptionHandler(UserNotFoundException exception) {
-
 		ResponseError errorResponse = new ResponseError();
 		errorResponse.setMessage(exception.getMessage());
 		errorResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
 		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
+	}
+	@ExceptionHandler(InvalidCredentialsException.class)
+	public ResponseEntity<ErrorResponse> globalExceptionHandler(InvalidCredentialsException exception) {
+
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage(exception.getMessage());
+		errorResponse.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 	}
 	@ExceptionHandler(BooksNotFoundException.class)
 	public ResponseEntity<ResponseError> globalExceptionHandler(BooksNotFoundException exception) {
@@ -32,6 +48,7 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 
 	}
+
 	@ExceptionHandler(NullInputException.class)
 	public ResponseEntity<ResponseError> globalExceptionHandler(NullInputException exception) {
 

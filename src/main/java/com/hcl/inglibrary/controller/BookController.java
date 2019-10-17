@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author Manisha Yadav
  * @apiNote This controller is used to get/save the books from/to our library management s
- *
  */
 
 @RestController
@@ -48,7 +47,7 @@ public class BookController {
 		@GetMapping("/")
 		public ResponseEntity<List<BookListResponseDto>> getBooks(){
 			log.info(":: Enter into BookController--------::getBooks()");
-			return new ResponseEntity<>(bookService.fetchBooks(),HttpStatus.OK);
+			return new ResponseEntity<List<BookListResponseDto>>(bookService.fetchBooks(),HttpStatus.OK);
 		}
 		
 		/*
@@ -61,7 +60,7 @@ public class BookController {
 		public ResponseEntity<List<BookListByUserResponseDto>> getBooksByUser(@PathVariable Integer userId){
 			log.info(":: Enter into BookController--------::getBooksByUser()");
 			if(userId != null) {
-			return new ResponseEntity<>(bookService.fetchBooksByUser(userId),HttpStatus.OK);
+			return new ResponseEntity<List<BookListByUserResponseDto>>(bookService.fetchBooksByUser(userId),HttpStatus.OK);
 			}else { 
 				throw new NullInputException(ApplicationUtil.UserNull);
 			}

@@ -26,7 +26,6 @@ public class UserServiceImplTest {
 
 		UserResponseDto userResponseDto = new UserResponseDto();
 		User user = new User();
-		user.setContact("7647635562");
 		user.setEmail("manisha@gmail.com");
 		user.setFailure(0);
 		user.setLocker(false);
@@ -34,7 +33,7 @@ public class UserServiceImplTest {
 		user.setUserId(1);
 		user.setUserName("manisha");
 		
-		//Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
+		Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
 		
 		if(user != null) {
 			org.springframework.beans.BeanUtils.copyProperties(user, userResponseDto);

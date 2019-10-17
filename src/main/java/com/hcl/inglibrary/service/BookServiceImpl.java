@@ -22,14 +22,14 @@ import com.hcl.inglibrary.repository.BookIssuedHistoryRepository;
 import com.hcl.inglibrary.repository.BookRepository;
 import com.hcl.inglibrary.util.ApplicationUtil;
 import com.hcl.inglibrary.util.ExceptionConstants;
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * 
  * @author Manisha Yadav
- * @apiNote This class is used to get/save the books from/to our library
- *          management system.
+ * @apiNote This class is used to get/save the books from/to our library management system. 
  */
+
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Slf4j
 public class BookServiceImpl implements BookService {
@@ -37,17 +37,19 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	BookRepository bookRepository;
 
-	/*
-	 * @Param -no param
-	 * @Response -list of books
-	 * @Exception -Books not found
-	 * @Description -This method is used to fetch all the list of books which is
-	 * available in the library.
-	 */
-
 	@Autowired
 	BookIssuedHistoryRepository bookIssuedHistoryRepository;
 
+	/*
+	 * @Param -no param
+	 * 
+	 * @Response -list of books
+	 * 
+	 * @Exception -Books not found
+	 * 
+	 * @Description -This method is used to fetch all the list of books which is
+	 * available in the library.
+	 */
 	@Override
 	public List<BookListResponseDto> fetchBooks() {
 
@@ -67,8 +69,11 @@ public class BookServiceImpl implements BookService {
 
 	/*
 	 * @Param -bookRequestDto
+	 * 
 	 * @Response -donateBookResponseDto
+	 * 
 	 * @Exception -Books not found
+	 * 
 	 * @Description -This method is used to save the book details which is donated
 	 * by the specific user.
 	 */
@@ -89,8 +94,11 @@ public class BookServiceImpl implements BookService {
 
 	/*
 	 * @Param -userId
+	 * 
 	 * @Response -list of books
+	 * 
 	 * @Exception -Books not found
+	 * 
 	 * @Description -This method is used to fetch the book details which is issued
 	 * to the specific user.
 	 */
@@ -111,13 +119,15 @@ public class BookServiceImpl implements BookService {
 		} else {
 			throw new BooksNotFoundException(ExceptionConstants.booksNotFound);
 		}
-
 	}
 
 	/*
 	 * This method is used to reserve or preReserve the book.
+	 * 
 	 * @Body RequestReserveDto
+	 * 
 	 * @return ResponseReserveDto
+	 * 
 	 * @Exception RESERVE_BOOK_FAILED will throw when the request data is empty
 	 */
 

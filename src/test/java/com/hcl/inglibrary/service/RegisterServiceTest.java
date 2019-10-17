@@ -39,8 +39,6 @@ public class RegisterServiceTest {
 		user = new User();
 		user.setUserId(1);
 		user.setUserName("subha");
-
-		user.setContact("9988776655");
 		user.setPassword("subha1");
 
 	}

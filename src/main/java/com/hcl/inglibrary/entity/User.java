@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,10 +25,10 @@ public class User implements Serializable {
 	@Column(unique = true)
 
 	private String email;
-	private String contact;
+	private String address;
 	private String password;
-	private boolean locker;
-
+	@Column(name = "failure")
 	private Integer failure;
+	private boolean locker;
 
 }
