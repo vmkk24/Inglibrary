@@ -62,7 +62,6 @@ public class BookServiceImpl implements BookService{
 		Book book= new Book();
 		book.setAuthorName(bookRequestDto.getAuthorName());
 		book.setBookName(bookRequestDto.getBookName());
-		book.setUserId(bookRequestDto.getUserId());
 		book.setStatus(ApplicationUtil.defaultBookStatus);
 		bookRepository.save(book);
 		

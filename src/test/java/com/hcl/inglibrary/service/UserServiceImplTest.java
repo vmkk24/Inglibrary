@@ -1,6 +1,5 @@
 package com.hcl.inglibrary.service;
 
-import static org.junit.Assert.*;
 
 import java.util.Optional;
 
@@ -10,13 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hcl.inglibrary.dto.UserResponseDto;
 import com.hcl.inglibrary.entity.User;
-import com.hcl.inglibrary.exception.UserNotFoundException;
 import com.hcl.inglibrary.repository.UserRepository;
-import com.hcl.inglibrary.util.ExceptionConstants;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
