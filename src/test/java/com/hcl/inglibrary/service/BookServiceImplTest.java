@@ -73,28 +73,5 @@ public class BookServiceImplTest {
 		assertNotNull(actual);
 	}
 
-	@Test
-	public void testFetchBooksByUser() {
-		Integer userId = 1;
-		List<BookListByUserResponseDto> BookListByUserResponseDto = new ArrayList<>();
-		List<Book> books = new ArrayList<>();
-		Book book = new Book();
-		book.setAuthorName("Manisha");
-		book.setBookId(1);
-		book.setBookName("Mani");
-		book.setStatus("available");
-		book.setUserId(1);
-		books.add(book);		
-		Mockito.when(bookRepository.findByUserId(Mockito.anyInt())).thenReturn(books);
-		if(books != null) {
-			books.forEach(book1->{
-				BookListByUserResponseDto bookByUserResponseDto = new BookListByUserResponseDto();
-				BeanUtils.copyProperties(book1, bookByUserResponseDto);
-				BookListByUserResponseDto.add(bookByUserResponseDto);
-			});
-			List<BookListByUserResponseDto> actual =bookServiceImpl.fetchBooksByUser(userId);
-			assertNotNull(actual);
-		}
-	}
 
 }
