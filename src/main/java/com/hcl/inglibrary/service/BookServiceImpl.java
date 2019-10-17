@@ -22,6 +22,7 @@ import com.hcl.inglibrary.repository.BookIssuedHistoryRepository;
 import com.hcl.inglibrary.repository.BookRepository;
 import com.hcl.inglibrary.util.ApplicationUtil;
 import com.hcl.inglibrary.util.ExceptionConstants;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -29,8 +30,8 @@ import com.hcl.inglibrary.util.ExceptionConstants;
  * @apiNote This class is used to get/save the books from/to our library
  *          management system.
  */
-
 @Service
+@Slf4j
 public class BookServiceImpl implements BookService {
 
 	@Autowired
@@ -38,19 +39,14 @@ public class BookServiceImpl implements BookService {
 
 	/*
 	 * @Param -no param
-	 * 
 	 * @Response -list of books
-	 * 
 	 * @Exception -Books not found
-	 * 
 	 * @Description -This method is used to fetch all the list of books which is
 	 * available in the library.
 	 */
 
 	@Autowired
 	BookIssuedHistoryRepository bookIssuedHistoryRepository;
-
-	private static final String BOOKED = "issued";
 
 	@Override
 	public List<BookListResponseDto> fetchBooks() {
@@ -71,11 +67,8 @@ public class BookServiceImpl implements BookService {
 
 	/*
 	 * @Param -bookRequestDto
-	 * 
 	 * @Response -donateBookResponseDto
-	 * 
 	 * @Exception -Books not found
-	 * 
 	 * @Description -This method is used to save the book details which is donated
 	 * by the specific user.
 	 */
@@ -96,11 +89,8 @@ public class BookServiceImpl implements BookService {
 
 	/*
 	 * @Param -userId
-	 * 
 	 * @Response -list of books
-	 * 
 	 * @Exception -Books not found
-	 * 
 	 * @Description -This method is used to fetch the book details which is issued
 	 * to the specific user.
 	 */
@@ -121,48 +111,51 @@ public class BookServiceImpl implements BookService {
 		} else {
 			throw new BooksNotFoundException(ExceptionConstants.booksNotFound);
 		}
+
 	}
 
 	/*
 	 * This method is used to reserve or preReserve the book.
-	 * 
 	 * @Body RequestReserveDto
-	 * 
 	 * @return ResponseReserveDto
-	 * 
 	 * @Exception RESERVE_BOOK_FAILED will throw when the request data is empty
 	 */
 
 	@Override
 	public ResponseReserveDto reserveBook(RequestReserveDto requestReserveDto, Integer bookId) {
+		log.info(":: Enter into BookServiceImpl--------::reserveBook()");
 		if (requestReserveDto == null) {
-			throw new CommonException(ExceptionConstants.RESERVE_BOOK_FAILED);
+			throw new CommonException(ExceptionConstants.ISSUE_BOOK_FAILED);
 		}
 
 		BookIssuedHistory bookIssuedHistory = new BookIssuedHistory();
 		BeanUtils.copyProperties(requestReserveDto, bookIssuedHistory);
 		ResponseReserveDto responseReserveDto = new ResponseReserveDto();
 
-		if (requestReserveDto.getStatus().equalsIgnoreCase("available")) {
+		if (requestReserveDto.getStatus().equalsIgnoreCase("Available")) {
 
 			bookIssuedHistory.setBookId(bookId);
-			bookIssuedHistory.setStatus(BOOKED);
+			bookIssuedHistory.setStatus(ExceptionConstants.ISSUED);
 			bookIssuedHistory.setIssuedDate(LocalDate.now());
 			bookIssuedHistory.setDueDate(LocalDate.now().plusDays(7));
 			responseReserveDto.setMessage("Book issued Successfully");
 		} else {
 
 			BookIssuedHistory responseBookIssuedHistoryForPreBook = bookIssuedHistoryRepository
-					.findByBookIdAndStatus(bookId, BOOKED);
+					.findByBookIdAndStatus(bookId, ExceptionConstants.ISSUED);
+			if (responseBookIssuedHistoryForPreBook.getUserId().equals(requestReserveDto.getUserId())) {
+				throw new CommonException(ExceptionConstants.RESERVE_BOOK_FAILED);
+			}
 			bookIssuedHistory.setBookId(bookId);
 			bookIssuedHistory.setIssuedDate(responseBookIssuedHistoryForPreBook.getDueDate().plusDays(2));
 			bookIssuedHistory.setDueDate(responseBookIssuedHistoryForPreBook.getDueDate().plusDays(7));
-			bookIssuedHistory.setStatus("reserved");
-			responseReserveDto.setMessage("Book reserved Successfully");
+			bookIssuedHistory.setStatus("Reserved");
+			responseReserveDto.setMessage("Book reserved Successfully" + " Your due date is "
+					+ responseBookIssuedHistoryForPreBook.getDueDate().plusDays(7));
 		}
 		BookIssuedHistory responseBookIssuedHistory = bookIssuedHistoryRepository.save(bookIssuedHistory);
 		if (responseBookIssuedHistory.getBookIssuedId() == null) {
-			throw new CommonException(ExceptionConstants.RESERVE_BOOK_FAILED);
+			throw new CommonException(ExceptionConstants.ISSUE_BOOK_FAILED);
 		}
 
 		responseReserveDto.setStatusCode(200);
@@ -170,11 +163,11 @@ public class BookServiceImpl implements BookService {
 
 		Book responseBook = bookRepository.findByBookId(bookId);
 
-		if (responseBook.getStatus().equalsIgnoreCase("available")) {
-			responseBook.setStatus(BOOKED);
+		if (responseBook.getStatus().equalsIgnoreCase("Available")) {
+			responseBook.setStatus(ExceptionConstants.ISSUED);
 
 		} else {
-			responseBook.setStatus("reserved");
+			responseBook.setStatus("Reserved");
 
 		}
 		bookRepository.save(responseBook);
