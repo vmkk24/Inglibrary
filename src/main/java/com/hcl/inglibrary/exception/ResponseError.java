@@ -1,19 +1,27 @@
 package com.hcl.inglibrary.exception;
 
-import lombok.AllArgsConstructor;
+
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-	@Setter
-	@Getter
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public class ResponseError {
-		
-		private String message;
-		private int statusCode;
 
-	}	
+@Getter
+@Setter
+@NoArgsConstructor
+public class ResponseError implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 
+	private String message;
+	private int statusCode;
+
+	public ResponseError(String message, int statusCode) {
+		this.message = message;
+		this.statusCode = statusCode;
+
+	}
+
+}

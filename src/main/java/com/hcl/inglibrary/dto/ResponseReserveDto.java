@@ -10,12 +10,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class RegisterRequestDto implements Serializable {
+public class ResponseReserveDto implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-
-	private String userName;
-	private String email;
-	private String contact;
-	private String password;
-
+	private String message;
+	private Integer statusCode;
+	private Integer bookIssuedId;
 }

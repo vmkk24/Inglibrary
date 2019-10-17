@@ -10,11 +10,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class RegisterResponseDto implements Serializable {
+public class RequestReserveDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
 	private Integer userId;
-	private String message;
-	private Integer statusCode;
+	private String status;
 }

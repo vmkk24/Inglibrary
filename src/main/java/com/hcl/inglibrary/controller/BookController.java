@@ -18,25 +18,27 @@ import com.hcl.inglibrary.dto.BookListResponseDto;
 import com.hcl.inglibrary.dto.BookRequestDto;
 import com.hcl.inglibrary.dto.DonateBookResponseDto;
 import com.hcl.inglibrary.exception.NullInputException;
+import com.hcl.inglibrary.dto.RequestReserveDto;
+import com.hcl.inglibrary.dto.ResponseReserveDto;
 import com.hcl.inglibrary.service.BookService;
 import com.hcl.inglibrary.util.ApplicationUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-	/**
-	 * 
-	 * @author Manisha Yadav
-	 * @apiNote This controller is used to get/save the books from/to our library management system. 
-	 */
+/**
+ * @author Manisha Yadav
+ * @apiNote This controller is used to get/save the books from/to our library management s
+ *
+ */
 
-	@RestController
-	@RequestMapping("/books")
-	@CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
-	@Slf4j
-	public class BookController {
+@RestController
+@RequestMapping("/books")
+@CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
+@Slf4j
+public class BookController {
 
-		@Autowired
-		BookService bookService;
+	@Autowired
+	BookService bookService;
 		
 		/*
 		 * @Param -no param
@@ -74,5 +76,19 @@ import lombok.extern.slf4j.Slf4j;
 		public ResponseEntity<DonateBookResponseDto> donateBook(@RequestBody BookRequestDto bookRequestDto){
 			log.info(":: Enter into BookController--------::donateBook()");
 			return new ResponseEntity<>(bookService.donateBook(bookRequestDto),HttpStatus.OK);
+		}
+
+		/*
+		 * This method is used to reserve or preReserve the book.
+		 * @Body RequestReserveDto
+		 * @return ResponseReserveDto
+		 * 
+		 */
+		@PostMapping("books/{bookId}")
+		public ResponseEntity<ResponseReserveDto> reserveBook(@RequestBody RequestReserveDto requestReserveDto,
+				@PathVariable("bookId") Integer bookId) {
+			log.info(":: Enter into BookController--------::reserveBooks()");
+			ResponseReserveDto responseReserveDto = bookService.reserveBook(requestReserveDto, bookId);
+			return new ResponseEntity<>(responseReserveDto, HttpStatus.OK);
 		}
 }
