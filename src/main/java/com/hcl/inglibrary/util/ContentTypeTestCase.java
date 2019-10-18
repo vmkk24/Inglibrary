@@ -1,6 +1,7 @@
 package com.hcl.inglibrary.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hcl.inglibrary.exception.CommonException;
 
 public class ContentTypeTestCase {
 	private ContentTypeTestCase() {
@@ -11,7 +12,7 @@ public class ContentTypeTestCase {
 		try {
 			return new ObjectMapper().writeValueAsString(obj);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new CommonException(e.toString());
 		}
 	}
 

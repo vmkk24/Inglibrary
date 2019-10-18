@@ -55,16 +55,15 @@ public class BookServiceImpl implements BookService {
 
 		List<BookListResponseDto> bookListResponseDto = new ArrayList<>();
 		List<Book> books = bookRepository.findAll();
-		if (books != null) {
-			books.forEach(book -> {
-				BookListResponseDto bookResponseDto = new BookListResponseDto();
-				BeanUtils.copyProperties(book, bookResponseDto);
-				bookListResponseDto.add(bookResponseDto);
-			});
-			return bookListResponseDto;
-
+		if (books.isEmpty()) {
+			throw new BooksNotFoundException(ExceptionConstants.BOOKS_NOT_FOUND);
 		}
-		throw new BooksNotFoundException(ExceptionConstants.BOOKS_NOT_FOUND);
+		books.forEach(book -> {
+			BookListResponseDto bookResponseDto = new BookListResponseDto();
+			BeanUtils.copyProperties(book, bookResponseDto);
+			bookListResponseDto.add(bookResponseDto);
+		});
+		return bookListResponseDto;
 
 	}
 

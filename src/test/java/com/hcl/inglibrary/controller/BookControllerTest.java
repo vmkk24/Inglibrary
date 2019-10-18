@@ -2,11 +2,11 @@
 package com.hcl.inglibrary.controller;
 
 import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.hcl.inglibrary.dto.BookListByUserResponseDto;
@@ -27,6 +29,7 @@ import com.hcl.inglibrary.dto.ResponseReserveDto;
 import com.hcl.inglibrary.entity.Book;
 import com.hcl.inglibrary.service.BookService;
 import com.hcl.inglibrary.service.BookServiceImpl;
+import com.hcl.inglibrary.util.ContentTypeTestCase;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -120,11 +123,16 @@ public class BookControllerTest {
 	}
 
 	@Test
-	public void testReserveBook() throws Exception {
-		log.info(":: Enter into BookControllerTest--------::testReserveBook()");
-		Mockito.when(bookServiceImpl.reserveBook(Mockito.any(), Mockito.anyInt())).thenReturn(responseReserveDto);
-		ResponseReserveDto responseReserveDto = bookServiceImpl.reserveBook(requestReserveDto, 1);
-		Assert.assertNotNull(responseReserveDto);
+	public void testReserveBooks() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("/books/books/{bookId}", 1).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(ContentTypeTestCase.asJsonString(requestReserveDto)))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void testFetchBooksByUser() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/books/{userId}", 1).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 
 }
