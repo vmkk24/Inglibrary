@@ -18,31 +18,36 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Manisha Yadav
- * @apiNote This controller is used to get the user details which is registered with the library management system. 
+ * @apiNote This controller is used to get the user details which is registered
+ *          with the library management system.
  */
 
-	@RestController
-	@RequestMapping("/users")
-	@CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
-	@Slf4j
-	public class UserController {
+@RestController
+@RequestMapping("/users")
+@CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
+@Slf4j
+public class UserController {
 
-		@Autowired
-		UserService userService;
-		
-		/*
-		 * @Param -userId
-		 * @Response -ResponseEntity of UserResponseDto
-		 * @Exception -user not found
-		 * @Description -This method is used to fetch the details of the user which is available in the library.
-		 * */
-		@GetMapping("/{userId}")
-		public ResponseEntity<UserResponseDto> getUser(@PathVariable Integer userId){
-			log.info(":: Enter into UserController--------::getUser()");
-			if(userId!=null){
-			return new ResponseEntity<UserResponseDto>(userService.fetchUserDetails(userId),HttpStatus.OK);
-			}else{
-				throw new NullInputException(ApplicationUtil.UserNull);
-			}
+	@Autowired
+	UserService userService;
+
+	/*
+	 * @Param -userId
+	 * 
+	 * @Response -ResponseEntity of UserResponseDto
+	 * 
+	 * @Exception -user not found
+	 * 
+	 * @Description -This method is used to fetch the details of the user which is
+	 * available in the library.
+	 */
+	@GetMapping("/{userId}")
+	public ResponseEntity<UserResponseDto> getUser(@PathVariable Integer userId) {
+		log.info(":: Enter into UserController--------::getUser()");
+		if (userId != null) {
+			return new ResponseEntity<>(userService.fetchUserDetails(userId), HttpStatus.OK);
+		} else {
+			throw new NullInputException(ApplicationUtil.USER_NULL);
 		}
+	}
 }

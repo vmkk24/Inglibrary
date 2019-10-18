@@ -10,8 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DonateBookResponseDto {
-	
+
 	private String message;
-	private int StatusCode;
+	private Integer statusCode;
 
 }

@@ -1,7 +1,6 @@
 package com.hcl.inglibrary.controller;
 
 import org.slf4j.Logger;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,12 +47,12 @@ public class LoginController {
 		 * email will be sent to the user to reset his password.
 		 */
 		logger.info(":: Enter into LoginController--------::login()");
-		if(loginRequest.getEmail() == null || loginRequest.getPassword() == null) {
+		if (loginRequest.getEmail() == null || loginRequest.getPassword() == null) {
 			String message = ApplicationConstants.INVALID_CREDENTIALS;
 			throw new InvalidCredentialsException(message);
 		}
 
-		return new ResponseEntity<LoginResponse>(loginService.authenticate(loginRequest), HttpStatus.CREATED);
+		return new ResponseEntity<>(loginService.authenticate(loginRequest), HttpStatus.CREATED);
 
 	}
 

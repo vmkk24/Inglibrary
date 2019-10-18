@@ -7,7 +7,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.hcl.inglibrary.service.LoginServiceImpl;
-import com.hcl.inglibrary.service.SheduledReleaseBookService;
 
 /**
  * 
@@ -27,7 +26,7 @@ public class ScheduledTasks {
 	@Autowired
 	private SheduledReleaseBookService scheduledReleaseBookService;
 
-	@Scheduled(fixedRate = 100000)
+	@Scheduled(fixedRate = 10000)
 	public void scheduleTaskWithFixedRate() {
 		logger.info(":: Enter into ScheduledTasks--------::scheduleTaskWithFixedRate()");
 		scheduledReleaseBookService.autoReleaseBook();

@@ -2,11 +2,10 @@ package com.hcl.inglibrary.service;
 
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 import com.hcl.inglibrary.dto.LoginRequest;
 import com.hcl.inglibrary.dto.LoginResponse;
 import com.hcl.inglibrary.entity.User;
@@ -14,9 +13,11 @@ import com.hcl.inglibrary.exception.InvalidCredentialsException;
 import com.hcl.inglibrary.repository.UserRepository;
 import com.hcl.inglibrary.utils.ApplicationConstants;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class LoginServiceImpl implements LoginService {
-	private static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
 
 	@Autowired
 	private UserRepository usersDao;
@@ -37,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
 		 * email will be sent to the user to reset his password.
 		 */
 
-		logger.info(":: Enter into LoginService--------::authenticate()");
+		log.info(":: Enter into LoginService--------::authenticate()");
 
 		String message = "";
 		LoginResponse loginResponse = new LoginResponse();
@@ -50,7 +51,7 @@ public class LoginServiceImpl implements LoginService {
 			message = ApplicationConstants.INVALID_CREDENTIALS;
 
 			if (failedUser.isPresent()) {
-				logger.info("Failure Attempts in controller : " + failedUser.get().getFailure());
+				log.info("Failure Attempts in controller : " + failedUser.get().getFailure());
 
 				if (failedUser.get().getFailure() >= 3) {
 
@@ -60,7 +61,11 @@ public class LoginServiceImpl implements LoginService {
 					 */
 
 					if (failedUser.get().getFailure() == 3) {
-						User updateuser = usersDao.findByEmail(failedUser.get().getEmail()).get();
+						Optional<User> updateuserO = usersDao.findByEmail(failedUser.get().getEmail());
+						if (!(updateuserO.isPresent())) {
+							throw new InvalidCredentialsException(message);
+						}
+						User updateuser = updateuserO.get();
 
 						updateuser.setFailure(0);
 						updateuser.setLocker(true);
@@ -75,7 +80,7 @@ public class LoginServiceImpl implements LoginService {
 					User failedUserO = failedUser.get();
 					failedUserO.setFailure(failedUserO.getFailure() + 1);
 					usersDao.save(failedUserO);
-					message = ApplicationConstants.PASSWORD_MISSMATCH;
+					message = ApplicationConstants.PASSWOR_MISSMATCH;
 					throw new InvalidCredentialsException(message);
 
 				}
@@ -92,13 +97,14 @@ public class LoginServiceImpl implements LoginService {
 			loginResponse.setMessage(message);
 			loginResponse.setStatusCode(HttpStatus.OK.value());
 
-			if (user.isPresent()) {
+			if ((user.isPresent())) {
 				loginResponse.setUserId(user.get().getUserId());
-			} else {
-				loginResponse.setUserId(0);
+				return loginResponse;
 			}
+			throw new InvalidCredentialsException(message);
+
 		}
-		return loginResponse;
+
 	}
 
 }

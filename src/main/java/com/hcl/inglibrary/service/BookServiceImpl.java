@@ -62,9 +62,10 @@ public class BookServiceImpl implements BookService {
 				bookListResponseDto.add(bookResponseDto);
 			});
 			return bookListResponseDto;
-		} else {
-			throw new BooksNotFoundException(ExceptionConstants.booksNotFound);
+
 		}
+		throw new BooksNotFoundException(ExceptionConstants.BOOKS_NOT_FOUND);
+
 	}
 
 	/*
@@ -83,11 +84,11 @@ public class BookServiceImpl implements BookService {
 		Book book = new Book();
 		book.setAuthorName(bookRequestDto.getAuthorName());
 		book.setBookName(bookRequestDto.getBookName());
-		book.setStatus(ApplicationUtil.defaultBookStatus);
+		book.setStatus(ApplicationUtil.DEFAULT_BOOK_STATUS);
 		bookRepository.save(book);
 
 		DonateBookResponseDto donateBookResponseDto = new DonateBookResponseDto();
-		donateBookResponseDto.setMessage(ApplicationUtil.donateBookResponseDtoMsg);
+		donateBookResponseDto.setMessage(ApplicationUtil.DONATE_BOOK_RESPONSE_DTO_MESSAGE);
 		donateBookResponseDto.setStatusCode(200);
 		return donateBookResponseDto;
 	}
@@ -104,7 +105,7 @@ public class BookServiceImpl implements BookService {
 	 */
 	@Override
 	public List<BookListByUserResponseDto> fetchBooksByUser(Integer userId) {
-		List<BookListByUserResponseDto> BookListByUserResponseDto = new ArrayList<>();
+		List<BookListByUserResponseDto> bookListByUserResponseDto = new ArrayList<>();
 		List<BookIssuedHistory> books = bookIssuedHistoryRepository.findAllByUserIdAndStatus(userId, "Issued");
 		if (books != null) {
 			books.forEach(book -> {
@@ -113,11 +114,11 @@ public class BookServiceImpl implements BookService {
 				Book responseBook = bookRepository.findByBookId(book.getBookId());
 				bookByUserResponseDto.setAuthorName(responseBook.getAuthorName());
 				bookByUserResponseDto.setBookName(responseBook.getBookName());
-				BookListByUserResponseDto.add(bookByUserResponseDto);
+				bookListByUserResponseDto.add(bookByUserResponseDto);
 			});
-			return BookListByUserResponseDto;
+			return bookListByUserResponseDto;
 		} else {
-			throw new BooksNotFoundException(ExceptionConstants.booksNotFound);
+			throw new BooksNotFoundException(ExceptionConstants.BOOKS_NOT_FOUND);
 		}
 	}
 

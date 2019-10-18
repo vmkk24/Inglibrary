@@ -1,8 +1,8 @@
 package com.hcl.inglibrary.service;
 
-
 import java.util.Optional;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,10 +21,10 @@ public class UserServiceImplTest {
 	UserRepository userRepository;
 	@InjectMocks
 	UserServiceImpl userServiceImpl;
+
 	@Test
 	public void testFetchUserDetails() {
 
-		UserResponseDto userResponseDto = new UserResponseDto();
 		User user = new User();
 		user.setEmail("manisha@gmail.com");
 		user.setFailure(0);
@@ -32,13 +32,13 @@ public class UserServiceImplTest {
 		user.setPassword("875fyf");
 		user.setUserId(1);
 		user.setUserName("manisha");
-		
-		Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
-		
-		if(user != null) {
-			org.springframework.beans.BeanUtils.copyProperties(user, userResponseDto);
+		user.setAddress("bangalore");
 
-		}
+		Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
+
+		UserResponseDto actual = userServiceImpl.fetchUserDetails(1);
+		Assert.assertEquals(Integer.valueOf(1), actual.getUserId());
+
 	}
 
 }

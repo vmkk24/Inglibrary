@@ -1,8 +1,6 @@
-package com.hcl.inglibrary.service;
+package com.hcl.inglibrary.schedulder;
 
 import java.time.LocalDate;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,11 +54,10 @@ public class SheduledReleaseBookServiceImpl implements SheduledReleaseBookServic
 		Optional<List<BookIssuedHistory>> bookIssuedHistoryO = bookIssuedHistoryRepository
 				.findByDueDateAndStatus(currentDate, status);
 		List<BookIssuedHistory> lisBookIssuedHistories = null;
-		if (bookIssuedHistoryO.isPresent()) {
+		if (bookIssuedHistoryO.isPresent())
 			lisBookIssuedHistories = bookIssuedHistoryO.get();
 
-		}
-		List<Integer> listOfBookId = new ArrayList<Integer>();
+		List<Integer> listOfBookId = new ArrayList<>();
 		if (bookIssuedHistoryO.isPresent()) {
 			lisBookIssuedHistories.forEach(bookIssuedHistory -> {
 				bookIssuedHistory.setStatus(ApplicationConstants.AVAILABLE);
@@ -68,13 +65,9 @@ public class SheduledReleaseBookServiceImpl implements SheduledReleaseBookServic
 			});
 			bookIssuedHistoryRepository.saveAll(lisBookIssuedHistories);
 			List<Book> listOfBook = bookRepository.findAllById(listOfBookId);
-			listOfBook.forEach(book -> {
-				book.setStatus(ApplicationConstants.AVAILABLE);
-			});
+			listOfBook.forEach(book -> book.setStatus(ApplicationConstants.AVAILABLE));
 			bookRepository.saveAll(listOfBook);
-
 		}
-
 		SchedulderResponse schedulderResponse = new SchedulderResponse();
 		schedulderResponse.setMessage(ApplicationConstants.SUCCESS);
 		schedulderResponse.setStatusCode(HttpStatus.OK.value());
@@ -105,7 +98,7 @@ public class SheduledReleaseBookServiceImpl implements SheduledReleaseBookServic
 
 		}
 
-		List<Integer> listOfBookId = new ArrayList<Integer>();
+		List<Integer> listOfBookId = new ArrayList<>();
 		if (bookIssuedHistoryO.isPresent()) {
 			lisBookIssuedHistories.forEach(bookIssuedHistory -> {
 				bookIssuedHistory.setStatus(ApplicationConstants.ISSUEDED);
@@ -113,13 +106,9 @@ public class SheduledReleaseBookServiceImpl implements SheduledReleaseBookServic
 			});
 			bookIssuedHistoryRepository.saveAll(lisBookIssuedHistories);
 			List<Book> listOfBook = bookRepository.findAllById(listOfBookId);
-			listOfBook.forEach(book -> {
-				book.setStatus(ApplicationConstants.ISSUEDED);
-			});
+			listOfBook.forEach(book -> book.setStatus(ApplicationConstants.ISSUEDED));
 			bookRepository.saveAll(listOfBook);
-
 		}
-
 		SchedulderResponse schedulderResponse = new SchedulderResponse();
 		schedulderResponse.setMessage(ApplicationConstants.SUCCESS);
 		schedulderResponse.setStatusCode(HttpStatus.OK.value());
