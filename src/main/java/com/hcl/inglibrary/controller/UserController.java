@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserController {
 
+
 	@Autowired
 	UserService userService;
 
@@ -48,6 +49,7 @@ public class UserController {
 			return new ResponseEntity<>(userService.fetchUserDetails(userId), HttpStatus.OK);
 		} else {
 			throw new NullInputException(ApplicationUtil.USER_NULL);
+
 		}
 	}
 }

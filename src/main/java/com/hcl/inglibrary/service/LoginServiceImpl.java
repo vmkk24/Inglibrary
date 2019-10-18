@@ -65,6 +65,7 @@ public class LoginServiceImpl implements LoginService {
 						if (!(updateuserO.isPresent())) {
 							throw new InvalidCredentialsException(message);
 						}
+
 						User updateuser = updateuserO.get();
 
 						updateuser.setFailure(0);
@@ -97,9 +98,11 @@ public class LoginServiceImpl implements LoginService {
 			loginResponse.setMessage(message);
 			loginResponse.setStatusCode(HttpStatus.OK.value());
 
+
 			if ((user.isPresent())) {
 				loginResponse.setUserId(user.get().getUserId());
 				return loginResponse;
+
 			}
 			throw new InvalidCredentialsException(message);
 
