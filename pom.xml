@@ -104,5 +104,21 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	        <profiles>
+    <profile>
+        <id>dev</id>
+        <properties>
+            <spring.profiles.active>dev</spring.profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>uat</id>
+        <properties>
+            <spring.profiles.active>uat</spring.profiles.active>
+        </properties>
+    </profile>
+</profiles>
+
 
 </project>
