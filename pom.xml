@@ -77,8 +77,8 @@
 	</dependencies>
 <distributionManagement>
   <snapshotRepository>
-    <id>nexus</id>
-    <url>http://13.232.73.250:8081/nexus/content/repositories/snapshots</url>
+    <id>IngLib</id>
+    <url>http://13.233.152.218:8081/nexus/content/repositories/IngLib</url>
   </snapshotRepository>
 </distributionManagement>
 	<build>
