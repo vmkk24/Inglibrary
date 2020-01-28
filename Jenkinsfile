@@ -1,5 +1,9 @@
 node('master'){
-   
+   post { 
+        always { 
+            cleanWs()
+        }
+    }
    stage('git checkout'){
                   git 'https://github.com/vmkk24/Inglibrary.git'
               }
