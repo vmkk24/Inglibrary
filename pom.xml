@@ -78,7 +78,7 @@
 <distributionManagement>
   <snapshotRepository>
     <id>IngLib</id>
-    <url>http://13.233.152.218:8081/nexus/content/repositories/IngLib</url>
+    <url>http://13.235.70.205:8081/nexus/content/repositories/IngLib</url>
   </snapshotRepository>
 </distributionManagement>
 	<build>
@@ -94,7 +94,7 @@
         			<version>3.0.0-M4</version>
 			</plugin>
 			
-			<plugin>
+		<!--	<plugin>
    				<groupId>org.apache.maven.plugins</groupId>
    				<artifactId>maven-deploy-plugin</artifactId>
    				<version>${maven-deploy-plugin.version}</version>
@@ -121,7 +121,7 @@
       					<nexusUrl>http://13.233.152.218:8081/nexus/content/repositories/IngLib</nexusUrl>
       					<skipStaging>true</skipStaging>
    				</configuration>
-			</plugin>
+			</plugin>  -->
 			
 			<plugin>
 				<groupId>org.jacoco</groupId>
