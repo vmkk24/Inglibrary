@@ -73,12 +73,12 @@
 			<version>3.7.0.1746</version>
 			<type>pom</type>
 		</dependency>
-
 	</dependencies>
+	
 <distributionManagement>
   <snapshotRepository>
-    <id>IngLib</id>
-    <url>http://13.235.70.205:8081/nexus/content/repositories/IngLib</url>
+    <id>nexus</id>
+    <url>http://104.211.217.102:8081/nexus/content/repositories/snapshots</url>
   </snapshotRepository>
 </distributionManagement>
 	<build>
@@ -87,42 +87,11 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
 			<plugin>
        				<groupId>org.apache.maven.plugins</groupId>
         			<artifactId>maven-surefire-plugin</artifactId>
         			<version>3.0.0-M4</version>
 			</plugin>
-			
-		<!--	<plugin>
-   				<groupId>org.apache.maven.plugins</groupId>
-   				<artifactId>maven-deploy-plugin</artifactId>
-   				<version>${maven-deploy-plugin.version}</version>
-   				<configuration>
-      					<skip>true</skip>
-   				</configuration>
-			</plugin>
-			
-			<plugin>
-   				<groupId>org.sonatype.plugins</groupId>
-   				<artifactId>nexus-staging-maven-plugin</artifactId>
-   				<version>1.3</version>
-   				<executions>
-				      <execution>
-         				<id>default-deploy</id>
-         				<phase>deploy</phase>
-         				<goals>
-            					<goal>deploy</goal>
-         				</goals>
-      				      </execution>
-   				</executions>
-   				<configuration>
-      					<serverId>nexus</serverId>
-      					<nexusUrl>http://13.233.152.218:8081/nexus/content/repositories/IngLib</nexusUrl>
-      					<skipStaging>true</skipStaging>
-   				</configuration>
-			</plugin>  -->
-			
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
